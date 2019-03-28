@@ -1,0 +1,25 @@
+### Variable declaration:
+vars:
+  - &spark_master_ip_address 188.184.95.231
+
+spark_master_runtime_variables:
+  - &master_runtime_var_host spark-master.cern.ch
+
+preferred_tech_stack:
+  level_1_configuration: puppet
+  level_2_configuration: sh
+  container_orchestration: docker-swarm
+  container: docker
+ 
+lightweight_components:
+  - type: spark_master
+    name: spark-master
+    repository_url: "https://github.com/JuliaGavrilenko/spark_master.git"
+    repository_revision: "master"
+    execution_id: 0
+    deploy:
+      - node: spark-master.cern.ch
+        container_count: 1
+    config:
+        host: *master_runtime_var_host
+
