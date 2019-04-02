@@ -22,7 +22,7 @@ preferred_tech_stack:
 lightweight_components:
   - type: spark_master
     name: spark_master
-    repository_url: "https://github.com/JuliaGavrilenko/spark_master.git"
+    repository_url: "https://github.com/JuliaGavrilenko/spark_master"
     repository_revision: "master"
     execution_id: 0
     deploy:
@@ -31,10 +31,15 @@ lightweight_components:
     config:
         host: *master_runtime_var_host
         enable_init_daemon: false
+    supplemental_config:
+        "spark-defaults.conf":
+          - "spark.memory.fraction 0.75"
+          - "spark.executor.memory 1g"
+          - "spark.driver.cores 1"
 
   - name: spark_worker
     type: spark_worker
-    repository_url: "https://github.com/JuliaGavrilenko/spark_worker.git"
+    repository_url: "https://github.com/JuliaGavrilenko/spark_worker"
     repository_revision: "master"
     execution_id: 1
     deploy:
@@ -44,10 +49,15 @@ lightweight_components:
         host: *worker_runtime_var_host
         enable_init_daemon: false
         SPARK_MASTER: spark://spark-master:7077
+    supplemental_config:
+      "spark-defaults.conf":
+        - "spark.memory.fraction 0.75"
+        - "spark.executor.memory 1g"
+        - "spark.driver.cores 1"
 
   - name: spark_submit
     type: spark_submit
-    repository_url: "https://github.com/JuliaGavrilenko/spark_submit.git"
+    repository_url: "https://github.com/JuliaGavrilenko/spark_submit"
     repository_revision: "master"
     execution_id: 2
     deploy:
@@ -57,3 +67,8 @@ lightweight_components:
         spark_master: *submit_runtime_var_host
         enable_init_daemon: false
         SPARK_MASTER: spark://spark-master:7077
+    supplemental_config:
+      "spark-defaults.conf":
+        - "spark.memory.fraction 0.75"
+        - "spark.executor.memory 1g"
+        - "spark.driver.cores 1"
