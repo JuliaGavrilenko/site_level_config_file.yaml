@@ -18,7 +18,15 @@ preferred_tech_stack:
   level_2_configuration: sh
   container_orchestration: docker-swarm
   container: docker
- 
+
+site_infrastructure:
+  - fqdn: spark-master.cern.ch
+    ip_address: *spark_master_ip_address
+  - fqdn: spark-worker.cern.ch
+    ip_address: *spark_worker_ip_address
+  - fqdn: spark-submit.cern.ch
+    ip_address: *spark_submit_ip_address
+
 lightweight_components:
   - type: spark_master
     name: spark-master
