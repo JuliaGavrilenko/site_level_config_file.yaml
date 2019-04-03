@@ -37,8 +37,8 @@ lightweight_components:
           - "spark.executor.memory 1g"
           - "spark.driver.cores 1"
 
-  - name: spark_worker
-    type: spark-worker
+  - name: spark-worker
+    type: spark_worker
     repository_url: "https://github.com/JuliaGavrilenko/spark_worker"
     repository_revision: "master"
     execution_id: 1
@@ -55,8 +55,8 @@ lightweight_components:
         - "spark.executor.memory 1g"
         - "spark.driver.cores 1"
 
-  - name: spark_submit
-    type: spark-submit
+  - name: spark-submit
+    type: spark_submit
     repository_url: "https://github.com/JuliaGavrilenko/spark_submit"
     repository_revision: "master"
     execution_id: 2
