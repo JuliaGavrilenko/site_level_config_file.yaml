@@ -21,7 +21,7 @@ preferred_tech_stack:
  
 lightweight_components:
   - type: spark_master
-    name: spark_master
+    name: spark-master
     repository_url: "https://github.com/JuliaGavrilenko/spark_master"
     repository_revision: "master"
     execution_id: 0
@@ -38,7 +38,7 @@ lightweight_components:
           - "spark.driver.cores 1"
 
   - name: spark_worker
-    type: spark_worker
+    type: spark-worker
     repository_url: "https://github.com/JuliaGavrilenko/spark_worker"
     repository_revision: "master"
     execution_id: 1
@@ -56,7 +56,7 @@ lightweight_components:
         - "spark.driver.cores 1"
 
   - name: spark_submit
-    type: spark_submit
+    type: spark-submit
     repository_url: "https://github.com/JuliaGavrilenko/spark_submit"
     repository_revision: "master"
     execution_id: 2
