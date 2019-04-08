@@ -1,5 +1,6 @@
+
 ### Variable declaration:
-vars:
+global_variables:
   - &spark_master_ip_address 188.184.95.231
   - &spark_master_fqdn spark-master.cern.ch
   - &spark_worker_ip_address 188.184.104.92
@@ -30,14 +31,11 @@ preferred_tech_stack:
   container: docker
 
 site_infrastructure:
-#  - fqdn: spark-master.cern.ch
   - fqdn: *spark_master_fqdn
     ip_address: *spark_master_ip_address
-#  - fqdn: spark-worker.cern.ch
-   - fqdn: *spark_worker_fqdn
+  - fqdn: *spark_worker_fqdn
     ip_address: *spark_worker_ip_address
-#  - fqdn: spark-submit.cern.ch
-   - fqdn: *spark_submit_fqdn
+  - fqdn: *spark_submit_fqdn
     ip_address: *spark_submit_ip_address
 
 lightweight_components:
