@@ -5,14 +5,18 @@ global_variables:
   - &spark_worker_fqdn spark-worker.cern.ch
   - &spark_submit_ip_address 188.185.82.126
   - &spark_submit_fqdn spark-submit.cern.ch
+  - &spark_add_worker_1_ip_address 188.184.31.131
+  - &spark_add_worker_1_fqdn spark-add-worker-1.cern.ch
+  - &spark_add_worker_2_ip_address 188.184.30.108
+  - &spark_add_worker_2_fqdn spark-add-worker-2.cern.ch
+  - &spark_add_worker_3_ip_address 188.184.28.84
+  - &spark_add_worker_3_fqdn spark-add-worker-3.cern.ch
 
 spark_master_runtime_variables:
   - &spark_master_runtime_var_host
     __from__: *spark_master_fqdn
 
 spark_worker_runtime_variables:
-  - &spark_worker_runtime_var_host
-    __from__: *spark_worker_fqdn
   - &spark_worker_runtime_var_spark_master
     __from__: *spark_master_fqdn
 
@@ -31,6 +35,12 @@ site_infrastructure:
     ip_address: *spark_master_ip_address
   - fqdn: *spark_worker_fqdn
     ip_address: *spark_worker_ip_address
+  - fqdn: *spark_add_worker_1_fqdn
+    ip_address: *spark_add_worker_1_ip_address
+  - fqdn: *spark_add_worker_2_fqdn
+    ip_address: *spark_add_worker_2_ip_address
+  - fqdn: *spark_add_worker_3_fqdn
+    ip_address: *spark_add_worker_3_ip_address
   - fqdn: *spark_submit_fqdn
     ip_address: *spark_submit_ip_address
 
@@ -58,6 +68,57 @@ lightweight_components:
     execution_id: 1
     deploy:
       - node: *spark_worker_fqdn
+        container_count: 1
+    config:
+        enable_init_daemon: false
+        spark_master: *spark_master_fqdn
+    supplemental_config:
+        "spark-defaults.conf":
+          - "spark.memory.fraction 0.75"
+          - "spark.executor.memory 1g"
+          - "spark.driver.cores 1"
+
+  - name: spark-add-worker-1
+    type: spark_add_worker_1
+    repository_url: "https://github.com/JuliaGavrilenko/spark_worker"
+    repository_revision: "master"
+    execution_id: 1
+    deploy:
+      - node: *spark_add_worker_1_fqdn
+        container_count: 1
+    config:
+        enable_init_daemon: false
+        spark_master: *spark_master_fqdn
+    supplemental_config:
+        "spark-defaults.conf":
+          - "spark.memory.fraction 0.75"
+          - "spark.executor.memory 1g"
+          - "spark.driver.cores 1"
+
+  - name: spark-add-worker-2
+    type: spark_add_worker_2
+    repository_url: "https://github.com/JuliaGavrilenko/spark_worker"
+    repository_revision: "master"
+    execution_id: 1
+    deploy:
+      - node: *spark_add_worker_2_fqdn
+        container_count: 1
+    config:
+        enable_init_daemon: false
+        spark_master: *spark_master_fqdn
+    supplemental_config:
+        "spark-defaults.conf":
+          - "spark.memory.fraction 0.75"
+          - "spark.executor.memory 1g"
+          - "spark.driver.cores 1"
+
+  - name: spark-add-worker-3
+    type: spark_add_worker_3
+    repository_url: "https://github.com/JuliaGavrilenko/spark_worker"
+    repository_revision: "master"
+    execution_id: 1
+    deploy:
+      - node: *spark_add_worker_3_fqdn
         container_count: 1
     config:
         enable_init_daemon: false
