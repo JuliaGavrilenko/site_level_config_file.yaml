@@ -1,5 +1,3 @@
-
-### Variable declaration:
 global_variables:
   - &spark_master_ip_address 188.184.95.231
   - &spark_master_fqdn spark-master.cern.ch
@@ -13,16 +11,14 @@ spark_master_runtime_variables:
     __from__: *spark_master_fqdn
 
 spark_worker_runtime_variables:
-  - &spark_worker_runtime_var_spark_master
-    __from__: *spark_master_fqdn
   - &spark_worker_runtime_var_host
     __from__: *spark_worker_fqdn
+  - &spark_worker_runtime_var_spark_master
+    __from__: *spark_master_fqdn
 
 spark_submit_runtime_variables:
-  - &spark_submit_runtime_var_host
-    __from__: *spark_submit_fqdn
   - &spark_submit_runtime_var_spark_master
-    __from__: *spark_master_fqdn
+    __from__: *spark_submit_fqdn
 
 preferred_tech_stack:
   level_1_configuration: puppet
@@ -48,7 +44,6 @@ lightweight_components:
       - node: *spark_master_fqdn
         container_count: 1
     config:
-#        host: *master_runtime_var_host
         enable_init_daemon: false
     supplemental_config:
         "spark-defaults.conf":
@@ -65,14 +60,13 @@ lightweight_components:
       - node: *spark_worker_fqdn
         container_count: 1
     config:
-#        host: *worker_runtime_var_host
         enable_init_daemon: false
         spark_master: *spark_master_fqdn
     supplemental_config:
-      "spark-defaults.conf":
-        - "spark.memory.fraction 0.75"
-        - "spark.executor.memory 1g"
-        - "spark.driver.cores 1"
+        "spark-defaults.conf":
+          - "spark.memory.fraction 0.75"
+          - "spark.executor.memory 1g"
+          - "spark.driver.cores 1"
 
   - name: spark-submit
     type: spark_submit
@@ -83,10 +77,5 @@ lightweight_components:
       - node: *spark_submit_fqdn
         container_count: 1
     config:
-        spark_master: *spark_master_fqdn
         enable_init_daemon: false
-    supplemental_config:
-      "spark-defaults.conf":
-        - "spark.memory.fraction 0.75"
-        - "spark.executor.memory 1g"
-        - "spark.driver.cores 1"
+#        spark_master: *spark_master_fqdn
